@@ -1,0 +1,1 @@
+This C program calculates the leading team in a competition based on points scored over multiple days. It takes input for the number of teams and days, records the points for each team, and calculates the total score for each team. It then determines the leading team based on total scores and prints the leading team after each matchday.
