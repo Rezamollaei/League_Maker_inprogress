@@ -53,15 +53,15 @@ a {
 }
 
 .app.step-setup {
-  --app-bg: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1600');
+  --app-bg: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1600&auto=format&fit=crop');
 }
 
 .app.step-day {
-  --app-bg: url('https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=1600');
+  --app-bg: url('https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=1600&auto=format&fit=crop');
 }
 
 .app.step-results {
-  --app-bg: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600');
+  --app-bg: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&auto=format&fit=crop');
 }
 
 .app-shell {
@@ -446,6 +446,7 @@ button:active {
   align-items: center;
   gap: 16px;
   transform-style: preserve-3d;
+  backface-visibility: hidden;
   animation: spinReveal 0.9s ease;
 }
 
