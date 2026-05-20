@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ToggleSwitch from './ToggleSwitch'
 
 const TEAM_RANGE = { min: 2, max: 10 }
 const DAY_RANGE = { min: 1, max: 20 }
@@ -10,7 +9,6 @@ const clamp = (value, range) =>
 function Setup({ onStart }) {
   const [teams, setTeams] = useState(TEAM_RANGE.min)
   const [days, setDays] = useState(7)
-  const [nameTeams, setNameTeams] = useState(false)
   const [error, setError] = useState('')
 
   const handleSubmit = (event) => {
@@ -36,7 +34,7 @@ function Setup({ onStart }) {
     }
 
     setError('')
-    onStart({ teams: teamCount, days: dayCount, nameTeams })
+    onStart({ teams: teamCount, days: dayCount })
   }
 
   return (
@@ -76,16 +74,6 @@ function Setup({ onStart }) {
               Between {DAY_RANGE.min} and {DAY_RANGE.max}
             </small>
           </label>
-        </div>
-
-        <div className="option-row">
-          <ToggleSwitch
-            checked={nameTeams}
-            onChange={setNameTeams}
-            id="name-teams-toggle"
-            label="🏷️ Name your teams"
-            ariaLabel="Toggle custom team naming"
-          />
         </div>
 
         {error && <p className="error">{error}</p>}
