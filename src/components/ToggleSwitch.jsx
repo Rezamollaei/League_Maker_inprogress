@@ -8,7 +8,7 @@ function ToggleSwitch({
   ariaLabel,
 }) {
   return (
-    <label className={`toggle-switch ${className}`.trim()} htmlFor={id}>
+    <label className={`toggle-switch ${className}`} htmlFor={id}>
       {icon && <span className="toggle-icon" aria-hidden="true">{icon}</span>}
       {label && <span className="toggle-label">{label}</span>}
       <span className={`toggle-track${checked ? ' on' : ''}`}>

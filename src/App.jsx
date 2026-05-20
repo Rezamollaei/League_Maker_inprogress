@@ -19,10 +19,6 @@ const buildTeams = (teamCount, totals, teamNames) =>
   }))
 
 const getInitialTheme = () => {
-  if (typeof window === 'undefined') {
-    return 'dark'
-  }
-
   const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
   return storedTheme === 'light' ? 'light' : 'dark'
 }
