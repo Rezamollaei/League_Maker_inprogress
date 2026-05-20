@@ -20,7 +20,7 @@ function ToggleSwitch({
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
         className="toggle-input"
-        aria-label={ariaLabel ?? label}
+        aria-label={ariaLabel ?? 'Toggle switch'}
       />
     </label>
   )
