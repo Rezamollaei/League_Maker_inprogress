@@ -306,8 +306,7 @@ button:active {
   border: 1px solid transparent;
   opacity: 0;
   transform: translateX(-14px);
-  animation: var(--row-anim) 0.45s ease forwards;
-  animation-delay: var(--row-delay);
+  animation: var(--row-anim) 0.45s ease var(--row-delay) forwards;
   transform-style: preserve-3d;
 }
 
@@ -315,9 +314,9 @@ button:active {
   background: rgba(250, 204, 21, 0.12);
   border-color: var(--accent-yellow);
   box-shadow: 0 0 18px rgba(250, 204, 21, 0.55), 0 0 35px rgba(250, 204, 21, 0.2);
-  animation: var(--row-anim) 0.45s ease forwards, leaderFloat 3.2s ease-in-out 0.45s infinite,
+  animation: var(--row-anim) 0.45s ease var(--row-delay) forwards,
+    leaderFloat 3.2s ease-in-out 0.45s infinite,
     glowPulse 2.4s ease-in-out 0.45s infinite;
-  animation-delay: var(--row-delay), 0.45s, 0.45s;
 }
 
 @keyframes rowEnter {
@@ -334,7 +333,7 @@ button:active {
 @keyframes rowEnterAlt {
   from {
     opacity: 0;
-    transform: translateX(-18px) scale(0.98);
+    transform: translateX(-22px) scale(0.96);
   }
   to {
     opacity: 1;
@@ -428,7 +427,7 @@ button:active {
 @keyframes scoreRollAlt {
   from {
     opacity: 0;
-    transform: translateY(12px) rotateX(70deg);
+    transform: translateY(16px) rotateX(80deg);
   }
   to {
     opacity: 1;
