@@ -65,7 +65,7 @@ function TeamNames({ teamCount, initialNames, onSubmit, onBack }) {
 
         <div className="actions">
           <button type="button" className="ghost" onClick={onBack}>
-            Restart
+            Back to setup
           </button>
           <button type="submit" className="primary">
             Start matchdays

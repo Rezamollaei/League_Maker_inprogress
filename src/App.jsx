@@ -19,8 +19,12 @@ const buildTeams = (teamCount, totals, teamNames) =>
   }))
 
 const getInitialTheme = () => {
-  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
-  return storedTheme === 'light' ? 'light' : 'dark'
+  try {
+    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+    return storedTheme === 'light' ? 'light' : 'dark'
+  } catch {
+    return 'dark'
+  }
 }
 
 function App() {
@@ -34,7 +38,10 @@ function App() {
 
   useEffect(() => {
     document.body.classList.toggle('light', theme === 'light')
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+    } catch {}
   }, [theme])
 
   const teams = useMemo(
