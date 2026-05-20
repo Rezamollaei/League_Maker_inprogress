@@ -6,7 +6,7 @@ function Leaderboard({
   subtitle = 'Cumulative points',
   variant = 'live',
 }) {
-  const scoreChangeKey = teams.map((team) => team.total).join('-')
+  const teamScoresKey = teams.map((team) => team.total).join('-')
   const [animationSeed, setAnimationSeed] = useState(0)
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function Leaderboard({
       return
     }
     setAnimationSeed((prev) => prev + 1)
-  }, [scoreChangeKey, teams.length])
+  }, [teamScoresKey, teams.length])
 
   const rowAnimation = animationSeed % 2 === 0 ? 'rowEnter' : 'rowEnterAlt'
   const scoreAnimation = animationSeed % 2 === 0 ? 'scoreRoll' : 'scoreRollAlt'
