@@ -6,9 +6,10 @@ function Results({ teams, onRestart }) {
 
   return (
     <div className="results">
+      <div className="results-effects" aria-hidden="true" />
       <div className="panel-header">
-        <h2>Final results</h2>
-        <p>The season is complete. Here is the overall winner.</p>
+        <h2>Final whistle</h2>
+        <p>The season is complete. Crown the champions and review the table.</p>
       </div>
 
       <div className="winner-card">
@@ -21,12 +22,17 @@ function Results({ teams, onRestart }) {
           </h3>
         </div>
         <div className="winner-score">
-          <span>{maxScore}</span>
-          <small>points</small>
+          <span className="score-ticker">{maxScore}</span>
+          <small>PTS</small>
         </div>
       </div>
 
-      <Leaderboard teams={teams} />
+      <Leaderboard
+        teams={teams}
+        title="Full standings"
+        subtitle="Final totals"
+        variant="final"
+      />
 
       <div className="actions">
         <button type="button" className="primary" onClick={onRestart}>

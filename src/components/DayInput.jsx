@@ -7,6 +7,7 @@ const buildPoints = (teamCount) =>
 function DayInput({ day, totalDays, teamCount, teams, onSubmitDay, onRestart }) {
   const [points, setPoints] = useState(() => buildPoints(teamCount))
   const [error, setError] = useState('')
+  const progress = Math.min(100, Math.round((day / totalDays) * 100))
 
   useEffect(() => {
     setPoints(buildPoints(teamCount))
@@ -36,7 +37,13 @@ function DayInput({ day, totalDays, teamCount, teams, onSubmitDay, onRestart }) 
     <div className="day-input">
       <div className="panel-header">
         <h2>Matchday {day}</h2>
-        <p>Enter today’s points and review the live standings.</p>
+        <p>Enter today’s points and watch the table update in real time.</p>
+        <div className="day-progress">
+          <span>Day {day} of {totalDays}</span>
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
       </div>
 
       <div className="content-grid">
@@ -71,9 +78,6 @@ function DayInput({ day, totalDays, teamCount, teams, onSubmitDay, onRestart }) 
 
         <div>
           <Leaderboard teams={teams} />
-          <div className="progress">
-            Day {day} of {totalDays}
-          </div>
         </div>
       </div>
     </div>

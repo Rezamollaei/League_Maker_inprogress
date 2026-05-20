@@ -53,24 +53,27 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app step-${step}`}>
       <div className="app-shell">
         <header className="app-header">
-          <div>
+          <div className="app-title">
             <p className="eyebrow">League Maker</p>
-            <h1>Daily Points Leaderboard</h1>
+            <h1>Championship Points Tracker</h1>
             <p className="tagline">
-              Track cumulative scores and watch the standings shift each day.
+              Feed every matchday score and watch the leaderboard ignite.
             </p>
           </div>
           {step === 'day' && (
             <div className="progress-chip">
-              Day {currentDay} of {dayCount}
+              Matchday {currentDay} / {dayCount}
             </div>
+          )}
+          {step === 'results' && (
+            <div className="progress-chip">Season complete</div>
           )}
         </header>
 
-        <main className="panel" key={`${step}-${currentDay}`}>
+        <main className={`panel panel-${step}`} key={`${step}-${currentDay}`}>
           {step === 'setup' && <Setup onStart={handleStart} />}
           {step === 'day' && (
             <DayInput

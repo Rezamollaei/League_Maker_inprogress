@@ -40,8 +40,8 @@ function Setup({ onStart }) {
   return (
     <div className="setup">
       <div className="panel-header">
-        <h2>Set up your league</h2>
-        <p>Choose how many teams are playing and the number of matchdays.</p>
+        <h2>Kick off the season</h2>
+        <p>Set the number of teams and matchdays to start the chase.</p>
       </div>
 
       <form className="form" onSubmit={handleSubmit}>
@@ -80,7 +80,7 @@ function Setup({ onStart }) {
 
         <div className="actions">
           <button type="submit" className="primary">
-            Start league
+            Launch the league
           </button>
         </div>
       </form>

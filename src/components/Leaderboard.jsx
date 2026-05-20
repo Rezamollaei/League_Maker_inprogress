@@ -1,8 +1,13 @@
-function Leaderboard({ teams }) {
+function Leaderboard({
+  teams,
+  title = 'Live leaderboard',
+  subtitle = 'Cumulative points',
+  variant = 'live',
+}) {
   if (!teams.length) {
     return (
       <div className="leaderboard empty">
-        <h3>Leaderboard</h3>
+        <h3>{title}</h3>
         <p>Scores will appear once the league begins.</p>
       </div>
     )
@@ -12,10 +17,10 @@ function Leaderboard({ teams }) {
   const maxScore = sortedTeams[0]?.total ?? 0
 
   return (
-    <div className="leaderboard">
+    <div className={`leaderboard ${variant}`}>
       <div className="leaderboard-header">
-        <h3>Live leaderboard</h3>
-        <span className="hint">Cumulative points</span>
+        <h3>{title}</h3>
+        <span className="hint">{subtitle}</span>
       </div>
       <div className="leaderboard-list">
         {sortedTeams.map((team, index) => {
@@ -23,7 +28,8 @@ function Leaderboard({ teams }) {
           return (
             <div
               className={`leader-row${isLeader ? ' leader' : ''}`}
-              key={team.id}
+              key={`${team.id}-${team.total}`}
+              style={{ animationDelay: `${index * 0.08}s` }}
             >
               <div className="leader-meta">
                 <span className="rank">#{index + 1}</span>
@@ -33,8 +39,8 @@ function Leaderboard({ teams }) {
                 </div>
               </div>
               <div className="leader-score">
-                <span>{team.total}</span>
-                <small>pts</small>
+                <span className="score-ticker">{team.total}</span>
+                <small>PTS</small>
               </div>
             </div>
           )
