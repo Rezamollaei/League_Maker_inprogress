@@ -294,6 +294,9 @@ button:active {
 }
 
 .leader-row {
+  --row-delay: 0s;
+  --row-anim: rowEnter;
+  --score-anim: scoreRoll;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -303,7 +306,8 @@ button:active {
   border: 1px solid transparent;
   opacity: 0;
   transform: translateX(-14px);
-  animation: rowEnter 0.45s ease forwards;
+  animation: var(--row-anim) 0.45s ease forwards;
+  animation-delay: var(--row-delay);
   transform-style: preserve-3d;
 }
 
@@ -311,11 +315,23 @@ button:active {
   background: rgba(250, 204, 21, 0.12);
   border-color: var(--accent-yellow);
   box-shadow: 0 0 18px rgba(250, 204, 21, 0.55), 0 0 35px rgba(250, 204, 21, 0.2);
-  animation: rowEnter 0.45s ease forwards, leaderFloat 3.2s ease-in-out 0.45s infinite,
+  animation: var(--row-anim) 0.45s ease forwards, leaderFloat 3.2s ease-in-out 0.45s infinite,
     glowPulse 2.4s ease-in-out 0.45s infinite;
+  animation-delay: var(--row-delay), 0.45s, 0.45s;
 }
 
 @keyframes rowEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes rowEnterAlt {
   from {
     opacity: 0;
     transform: translateX(-18px) scale(0.98);
@@ -394,11 +410,22 @@ button:active {
 
 .score-ticker {
   display: inline-block;
-  animation: scoreRoll 0.55s ease;
+  animation: var(--score-anim) 0.55s ease;
   transform-origin: bottom;
 }
 
 @keyframes scoreRoll {
+  from {
+    opacity: 0;
+    transform: translateY(12px) rotateX(70deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes scoreRollAlt {
   from {
     opacity: 0;
     transform: translateY(12px) rotateX(70deg);
@@ -426,7 +453,7 @@ button:active {
 @keyframes spinReveal {
   from {
     opacity: 0;
-    transform: rotateY(-180deg);
+    transform: rotateY(0deg);
   }
   to {
     opacity: 1;

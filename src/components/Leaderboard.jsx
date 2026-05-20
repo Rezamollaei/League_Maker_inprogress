@@ -1,9 +1,24 @@
+import { useEffect, useState } from 'react'
+
 function Leaderboard({
   teams,
   title = 'Live leaderboard',
   subtitle = 'Cumulative points',
   variant = 'live',
 }) {
+  const totalsSignature = teams.map((team) => team.total).join('-')
+  const [animationSeed, setAnimationSeed] = useState(0)
+
+  useEffect(() => {
+    if (!teams.length) {
+      return
+    }
+    setAnimationSeed((prev) => prev + 1)
+  }, [totalsSignature, teams.length])
+
+  const rowAnimation = animationSeed % 2 === 0 ? 'rowEnter' : 'rowEnterAlt'
+  const scoreAnimation = animationSeed % 2 === 0 ? 'scoreRoll' : 'scoreRollAlt'
+
   if (!teams.length) {
     return (
       <div className="leaderboard empty">
@@ -28,8 +43,12 @@ function Leaderboard({
           return (
             <div
               className={`leader-row${isLeader ? ' leader' : ''}`}
-              key={`${team.id}-${team.total}`}
-              style={{ animationDelay: `${index * 0.08}s` }}
+              key={team.id}
+              style={{
+                '--row-delay': `${index * 0.08}s`,
+                '--row-anim': rowAnimation,
+                '--score-anim': scoreAnimation,
+              }}
             >
               <div className="leader-meta">
                 <span className="rank">#{index + 1}</span>
