@@ -3,16 +3,75 @@
   font-family: 'Oswald', 'Inter', 'Segoe UI', system-ui, sans-serif;
   line-height: 1.4;
   font-weight: 500;
-  --bg-dark: #0a0a0a;
+
+  --bg: #0a0a0a;
+  --text: #ffffff;
+  --surface: #1a1a1a;
+
+  --app-overlay-start: rgba(10, 10, 10, 0.8);
+  --app-overlay-mid: rgba(10, 10, 10, 0.9);
+  --app-overlay-end: rgba(10, 10, 10, 1);
   --bg-panel: rgba(8, 8, 8, 0.88);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text-muted: #94a3b8;
+  --field-bg: rgba(12, 12, 12, 0.9);
+  --field-border: rgba(255, 255, 255, 0.12);
+  --ghost-bg: rgba(255, 255, 255, 0.08);
+  --ghost-border: rgba(255, 255, 255, 0.18);
+  --leaderboard-bg: rgba(6, 6, 6, 0.75);
+  --leader-row-bg: rgba(18, 18, 18, 0.9);
+  --leader-highlight-bg: rgba(250, 204, 21, 0.12);
+  --leader-badge-bg: rgba(250, 204, 21, 0.15);
+  --winner-bg-start: rgba(250, 204, 21, 0.2);
+  --winner-bg-end: rgba(239, 68, 68, 0.18);
+  --progress-track-bg: rgba(255, 255, 255, 0.08);
+  --progress-chip-bg: rgba(250, 204, 21, 0.12);
+  --progress-chip-border: rgba(250, 204, 21, 0.55);
+  --error-text: #fca5a5;
+  --toggle-thumb: #ffffff;
+  --results-effect-1: rgba(250, 204, 21, 0.25);
+  --results-effect-2: rgba(239, 68, 68, 0.2);
+  --results-effect-3: rgba(34, 197, 94, 0.2);
+
+  --accent: #facc15;
   --accent-yellow: #facc15;
   --accent-red: #ef4444;
   --accent-green: #22c55e;
   --accent-blue: #38bdf8;
-  --text-bright: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-glow: rgba(250, 204, 21, 0.6);
-  --panel-border: rgba(255, 255, 255, 0.08);
+  --focus-outline: rgba(250, 204, 21, 0.75);
+  --primary-text: #0a0a0a;
+}
+
+body.light {
+  color-scheme: light;
+  --bg: #f5f5f5;
+  --text: #111111;
+  --surface: #ffffff;
+
+  --app-overlay-start: rgba(245, 245, 245, 0.78);
+  --app-overlay-mid: rgba(245, 245, 245, 0.85);
+  --app-overlay-end: rgba(245, 245, 245, 0.95);
+  --bg-panel: rgba(255, 255, 255, 0.94);
+  --panel-border: rgba(15, 23, 42, 0.14);
+  --text-muted: #475569;
+  --field-bg: #ffffff;
+  --field-border: rgba(15, 23, 42, 0.18);
+  --ghost-bg: rgba(15, 23, 42, 0.08);
+  --ghost-border: rgba(15, 23, 42, 0.2);
+  --leaderboard-bg: rgba(255, 255, 255, 0.92);
+  --leader-row-bg: rgba(241, 245, 249, 0.95);
+  --leader-highlight-bg: rgba(250, 204, 21, 0.24);
+  --leader-badge-bg: rgba(250, 204, 21, 0.3);
+  --winner-bg-start: rgba(250, 204, 21, 0.28);
+  --winner-bg-end: rgba(239, 68, 68, 0.24);
+  --progress-track-bg: rgba(15, 23, 42, 0.16);
+  --progress-chip-bg: rgba(250, 204, 21, 0.24);
+  --progress-chip-border: rgba(250, 204, 21, 0.7);
+  --error-text: #b91c1c;
+  --toggle-thumb: #ffffff;
+  --results-effect-1: rgba(250, 204, 21, 0.2);
+  --results-effect-2: rgba(239, 68, 68, 0.18);
+  --results-effect-3: rgba(34, 197, 94, 0.16);
 }
 
 *,
@@ -21,11 +80,33 @@
   box-sizing: border-box;
 }
 
+body,
+.app,
+.panel,
+.leaderboard,
+.field input,
+.ghost,
+.progress-chip,
+.winner-card,
+.leader-badge,
+.toggle-track,
+.toggle-label,
+.hint,
+.panel-header p,
+.tagline,
+.winner-label,
+.winner-score small,
+.leader-score small,
+.option-row {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg-dark);
-  color: var(--text-bright);
+  background: var(--bg);
+  color: var(--text);
 }
 
 a {
@@ -41,9 +122,9 @@ a {
   position: relative;
   background-image: linear-gradient(
       180deg,
-      rgba(10, 10, 10, 0.8) 0%,
-      rgba(10, 10, 10, 0.9) 60%,
-      rgba(10, 10, 10, 1) 100%
+      var(--app-overlay-start) 0%,
+      var(--app-overlay-mid) 60%,
+      var(--app-overlay-end) 100%
     ),
     var(--app-bg);
   background-size: cover;
@@ -52,7 +133,8 @@ a {
   perspective: 1200px;
 }
 
-.app.step-setup {
+.app.step-setup,
+.app.step-team-names {
   --app-bg: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1600&auto=format&fit=crop');
 }
 
@@ -101,10 +183,18 @@ a {
   text-transform: none;
 }
 
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  margin-left: auto;
+}
+
 .progress-chip {
-  background: rgba(250, 204, 21, 0.12);
+  background: var(--progress-chip-bg);
   color: var(--accent-yellow);
-  border: 1px solid rgba(250, 204, 21, 0.55);
+  border: 1px solid var(--progress-chip-border);
   padding: 10px 18px;
   border-radius: 999px;
   font-size: 0.9rem;
@@ -159,14 +249,14 @@ a {
 .progress-track {
   width: 100%;
   height: 10px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--progress-track-bg);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #facc15, #ef4444);
+  background: linear-gradient(90deg, var(--accent-yellow), var(--accent-red));
   box-shadow: 0 0 12px rgba(250, 204, 21, 0.7);
   transition: width 0.4s ease;
 }
@@ -194,17 +284,17 @@ a {
 }
 
 .field input {
-  background: rgba(12, 12, 12, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
   border-radius: 12px;
   padding: 12px 14px;
-  color: var(--text-bright);
+  color: var(--text);
   font-size: 1rem;
   font-weight: 600;
 }
 
 .field input:focus {
-  outline: 2px solid rgba(250, 204, 21, 0.75);
+  outline: 2px solid var(--focus-outline);
   border-color: transparent;
 }
 
@@ -212,6 +302,12 @@ a {
   color: var(--text-muted);
   font-size: 0.75rem;
   text-transform: none;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .actions {
@@ -238,19 +334,19 @@ button:active {
 }
 
 .primary {
-  background: linear-gradient(120deg, #facc15, #ef4444);
-  color: #0a0a0a;
+  background: linear-gradient(120deg, var(--accent-yellow), var(--accent-red));
+  color: var(--primary-text);
   box-shadow: 0 12px 24px rgba(239, 68, 68, 0.35);
 }
 
 .ghost {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-bright);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: var(--ghost-bg);
+  color: var(--text);
+  border: 1px solid var(--ghost-border);
 }
 
 .error {
-  color: #fca5a5;
+  color: var(--error-text);
   font-weight: 700;
   margin: 0;
 }
@@ -263,8 +359,8 @@ button:active {
 }
 
 .leaderboard {
-  background: rgba(6, 6, 6, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--leaderboard-bg);
+  border: 1px solid var(--panel-border);
   border-radius: 18px;
   padding: 20px;
 }
@@ -301,7 +397,7 @@ button:active {
   align-items: center;
   justify-content: space-between;
   padding: 14px 18px;
-  background: rgba(18, 18, 18, 0.9);
+  background: var(--leader-row-bg);
   border-radius: 14px;
   border: 1px solid transparent;
   opacity: 0;
@@ -311,7 +407,7 @@ button:active {
 }
 
 .leader-row.leader {
-  background: rgba(250, 204, 21, 0.12);
+  background: var(--leader-highlight-bg);
   border-color: var(--accent-yellow);
   box-shadow: 0 0 18px rgba(250, 204, 21, 0.55), 0 0 35px rgba(250, 204, 21, 0.2);
   animation: var(--row-anim) 0.45s ease var(--row-delay) forwards,
@@ -386,7 +482,7 @@ button:active {
   margin-top: 4px;
   font-size: 0.7rem;
   color: var(--accent-yellow);
-  background: rgba(250, 204, 21, 0.15);
+  background: var(--leader-badge-bg);
   padding: 2px 8px;
   border-radius: 999px;
   text-transform: uppercase;
@@ -439,7 +535,7 @@ button:active {
   margin: 24px 0;
   padding: 22px 24px;
   border-radius: 18px;
-  background: linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(239, 68, 68, 0.18));
+  background: linear-gradient(135deg, var(--winner-bg-start), var(--winner-bg-end));
   border: 1px solid rgba(250, 204, 21, 0.6);
   display: flex;
   justify-content: space-between;
@@ -494,9 +590,9 @@ button:active {
 .results-effects {
   position: absolute;
   inset: -40px;
-  background: radial-gradient(circle at top, rgba(250, 204, 21, 0.25), transparent 60%),
-    radial-gradient(circle at 20% 20%, rgba(239, 68, 68, 0.2), transparent 50%),
-    radial-gradient(circle at 80% 30%, rgba(34, 197, 94, 0.2), transparent 55%);
+  background: radial-gradient(circle at top, var(--results-effect-1), transparent 60%),
+    radial-gradient(circle at 20% 20%, var(--results-effect-2), transparent 50%),
+    radial-gradient(circle at 80% 30%, var(--results-effect-3), transparent 55%);
   pointer-events: none;
   filter: blur(2px);
   z-index: 0;
@@ -507,9 +603,77 @@ button:active {
   z-index: 1;
 }
 
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.toggle-label {
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.toggle-track {
+  width: 48px;
+  height: 26px;
+  background: var(--surface);
+  border: 1px solid var(--panel-border);
+  border-radius: 13px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.toggle-track.on {
+  background: var(--accent);
+}
+
+.toggle-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--toggle-thumb);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.toggle-thumb.on {
+  transform: translateX(22px);
+}
+
+.theme-toggle {
+  align-self: flex-end;
+}
+
+.theme-toggle .toggle-label {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .app-header {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
     align-items: flex-start;
   }
 

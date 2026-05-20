@@ -1,33 +1,73 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Setup from './components/Setup'
+import TeamNames from './components/TeamNames'
+import ThemeToggle from './components/ThemeToggle'
 import DayInput from './components/DayInput'
 import Results from './components/Results'
 import './App.css'
 
-const buildTeams = (teamCount, totals) =>
+const THEME_STORAGE_KEY = 'league-maker-theme'
+
+const buildDefaultTeamNames = (teamCount) =>
+  Array.from({ length: teamCount }, (_, index) => `Team ${index + 1}`)
+
+const buildTeams = (teamCount, totals, teamNames) =>
   Array.from({ length: teamCount }, (_, index) => ({
     id: index + 1,
-    name: `Team ${index + 1}`,
+    name: teamNames[index] ?? `Team ${index + 1}`,
     total: totals[index] ?? 0,
   }))
 
+const getInitialTheme = () => {
+  try {
+    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+    return storedTheme === 'light' ? 'light' : 'dark'
+  } catch {
+    return 'dark'
+  }
+}
+
 function App() {
   const [step, setStep] = useState('setup')
+  const [theme, setTheme] = useState(getInitialTheme)
   const [teamCount, setTeamCount] = useState(0)
   const [dayCount, setDayCount] = useState(0)
   const [currentDay, setCurrentDay] = useState(1)
   const [totals, setTotals] = useState([])
+  const [teamNames, setTeamNames] = useState([])
+
+  useEffect(() => {
+    document.body.classList.toggle('light', theme === 'light')
+
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+    } catch {}
+  }, [theme])
 
   const teams = useMemo(
-    () => buildTeams(teamCount, totals),
-    [teamCount, totals],
+    () => buildTeams(teamCount, totals, teamNames),
+    [teamCount, totals, teamNames],
   )
 
-  const handleStart = ({ teams: nextTeamCount, days: nextDayCount }) => {
+  const handleStart = ({ teams: nextTeamCount, days: nextDayCount, nameTeams }) => {
+    const defaults = buildDefaultTeamNames(nextTeamCount)
+
     setTeamCount(nextTeamCount)
     setDayCount(nextDayCount)
     setTotals(Array.from({ length: nextTeamCount }, () => 0))
+    setTeamNames(defaults)
     setCurrentDay(1)
+
+    if (nameTeams) {
+      setStep('team-names')
+      return
+    }
+
+    setStep('day')
+  }
+
+  const handleTeamNamesSubmit = (nextTeamNames) => {
+    setTeamNames(nextTeamNames)
     setStep('day')
   }
 
@@ -49,7 +89,12 @@ function App() {
     setTeamCount(0)
     setDayCount(0)
     setTotals([])
+    setTeamNames([])
     setCurrentDay(1)
+  }
+
+  const handleThemeToggle = () => {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'))
   }
 
   return (
@@ -63,18 +108,30 @@ function App() {
               Feed every matchday score and watch the leaderboard ignite.
             </p>
           </div>
-          {step === 'day' && (
-            <div className="progress-chip">
-              Matchday {currentDay} / {dayCount}
-            </div>
-          )}
-          {step === 'results' && (
-            <div className="progress-chip">Season complete</div>
-          )}
+
+          <div className="header-actions">
+            <ThemeToggle isLight={theme === 'light'} onToggle={handleThemeToggle} />
+            {step === 'day' && (
+              <div className="progress-chip">
+                Matchday {currentDay} / {dayCount}
+              </div>
+            )}
+            {step === 'results' && (
+              <div className="progress-chip">Season complete</div>
+            )}
+          </div>
         </header>
 
         <main className={`panel panel-${step}`} key={`${step}-${currentDay}`}>
           {step === 'setup' && <Setup onStart={handleStart} />}
+          {step === 'team-names' && (
+            <TeamNames
+              teamCount={teamCount}
+              initialNames={teamNames}
+              onSubmit={handleTeamNamesSubmit}
+              onBack={handleRestart}
+            />
+          )}
           {step === 'day' && (
             <DayInput
               day={currentDay}

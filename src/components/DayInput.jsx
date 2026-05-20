@@ -51,7 +51,7 @@ function DayInput({ day, totalDays, teamCount, teams, onSubmitDay, onRestart }) 
           <div className="form-grid">
             {Array.from({ length: teamCount }, (_, index) => (
               <label className="field" key={`team-${index + 1}`}>
-                <span>Team {index + 1}</span>
+                <span>{teams[index]?.name ?? `Team ${index + 1}`}</span>
                 <input
                   type="number"
                   min="0"
